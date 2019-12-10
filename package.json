@@ -1,0 +1,16 @@
+{
+  "name": "node_exp_tsl",
+  "version": "1.0.0",
+    "description": "experiment with tsl",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/igorgo1984/node_exp_tsl.git"
+  },
+  "author": "Igor Stcherbina <verycooleagle@gmail.com> (http://github.com/eagle7410)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/igorgo1984/node_exp_tsl/issues"
+  },
+  "homepage": "https://github.com/igorgo1984/node_exp_tsl#readme"
+}
