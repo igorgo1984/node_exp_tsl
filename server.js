@@ -16,14 +16,18 @@ const options = {
 };
 
 const server = tls.createServer(options, (socket) => {
-	console.log('server connected', socket.authorized ? 'authorized' : 'unauthorized');
-
-	console.log('authorizationError ', socket.authorizationError);
-	console.log('getProtocol()  ', socket.getProtocol());
+	console.log('SERVER connected', socket.authorized ? 'authorized' : 'unauthorized');
 
 	socket.write('welcome!\n');
+	setTimeout(() => {socket.write("Send after second")}, 1000);
 	socket.setEncoding('utf8');
-	socket.pipe(socket);
+
+	socket.on('error', console.error);
+	socket.on('data', console.log);
+
+	// socket.pipe(socket);
+	// process.stdin.pipe(socket);
+	// process.stdin.resume();
 });
 
 server.listen(port, () => {console.log('server bound');});

@@ -3,6 +3,7 @@ const tls = require('tls');
 const fs = require('fs');
 
 const port = 8000;
+
 /** Note: With example use only server cert */
 const options = {
 
@@ -12,28 +13,33 @@ const options = {
 
 	// Necessary only if the server uses a self-signed certificate.
 	ca: [ fs.readFileSync(`${__dirname}/tsl/server-cert.pem`) ],
-
+	rejectUnauthorized: true,
 	// Necessary only if the server's cert isn't for "localhost".
-	checkServerIdentity: () => { return null; },
+	// checkServerIdentity: () => { return null; },
 };
+
 const host = 'localhost';
 
-const socket = tls.connect(port, host, options, () => {
-	console.log('client connected', socket.authorized ? 'authorized' : 'unauthorized');
+const socket = tls.connect(port, host, options, function() {
+	console.log('CLIENT connected', socket.authorized ? 'authorized' : 'unauthorized');
 	console.log('authorizationError ', socket.authorizationError);
 
-	process.stdin.pipe(socket);
-	process.stdin.resume();
+	// Send a friendly message
+	socket.write("I am the client sending you a message.");
+	// process.stdin.pipe(socket);
+	// process.stdin.resume();
+
+	socket.setEncoding('utf8');
+
+	socket.on('error', console.error);
+
+	socket.on('data', (data) => {
+		console.log(data);
+	});
+
+	socket.on('end', () => {console.log('Ended')});
 });
 
-socket.setEncoding('utf8');
 
-socket.on('error', console.error)
 
-socket.on('data', (data) => {
-	console.log(data);
-});
 
-socket.on('end', () => {
-	console.log('Ended')
-});
